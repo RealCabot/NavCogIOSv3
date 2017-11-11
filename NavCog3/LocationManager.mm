@@ -1560,6 +1560,8 @@ int dcount = 0;
         
         currentLocation = data;
         
+        NSLog( @"%@", currentLocation );
+        
         if (!validHeading && !localizer->tracksOrientation() &&
             [[NSUserDefaults standardUserDefaults] boolForKey:@"use_compass"]) {
             double delayInSeconds = 0.1;

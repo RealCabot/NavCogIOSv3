@@ -365,6 +365,7 @@
 /* Begin PBXFileReference section */
 		1D2D1F9E421ADDB0FC1A851C /* libPods-NavCog3.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NavCog3.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28E89CC83F0D37E90FA16F2F /* Pods-NavCogSimple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NavCogSimple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NavCogSimple/Pods-NavCogSimple.debug.xcconfig"; sourceTree = "<group>"; };
+		320F82B31FB6C3190096C325 /* SimplifiedOdometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimplifiedOdometry.h; sourceTree = "<group>"; };
 		322C46A01FAD1B0B00E22B2B /* dev.hashfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dev.hashfile; path = ../../../Desktop/dev.hashfile; sourceTree = "<group>"; };
 		32EB7B1D1FB4E9E400E5CB13 /* encoderMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = encoderMessage.h; sourceTree = "<group>"; };
 		532767560556F4EF6118B463 /* Pods-NavCogFingerPrint.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NavCogFingerPrint.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NavCogFingerPrint/Pods-NavCogFingerPrint.debug.xcconfig"; sourceTree = "<group>"; };
@@ -765,6 +766,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		320F82B11FB6C19D0096C325 /* messages */ = {
+			isa = PBXGroup;
+			children = (
+				320F82B31FB6C3190096C325 /* SimplifiedOdometry.h */,
+			);
+			name = messages;
+			sourceTree = "<group>";
+		};
 		54767C9F222FEA272361CF11 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1132,6 +1141,7 @@
 		7EDEDC1E1D1E0C6800AC111A /* NavCog3 */ = {
 			isa = PBXGroup;
 			children = (
+				320F82B11FB6C19D0096C325 /* messages */,
 				7E1F9F2D1DF0190F003E1B23 /* dialog */,
 				7E5150EC1D8D75D100ED25FB /* model */,
 				7E5150A11D8BF2C500ED25FB /* navigation */,
