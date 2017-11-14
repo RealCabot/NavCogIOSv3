@@ -30,10 +30,11 @@
 #import "LocationEvent.h"
 #import "RBManager.h"
 #import "RBSubscriber.h"
+#import "RBPublisher.h"
 
 #import "HeaderMessage.h"
-
 #import "encoderMessage.h"
+#import "StringMessage.h"
 
 //encoder from ROS encoder.msg
 
@@ -90,8 +91,9 @@
 
 
 @property RBSubscriber * ROSEncoderSubscriber; //Rbmanager encoder
--(void)EncoderUpdate:(encoderMessage*)encoder; //will send the encoder info to localizer
-
+@property RBPublisher * debugInfoPublisher; // Debug Info publisher
+-(void) EncoderUpdate:(encoderMessage*)encoder; //will send the encoder info to localizer
+-(void) emitDebugInfo:(NSString*)message;
 @end
 
 

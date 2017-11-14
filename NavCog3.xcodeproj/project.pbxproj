@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		016CD94CF764844DA4D77711 /* libPods-NavCogFingerPrint.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDB8ADD0611709873B66234 /* libPods-NavCogFingerPrint.a */; };
 		322C46A11FAD1B0C00E22B2B /* dev.hashfile in Resources */ = {isa = PBXBuildFile; fileRef = 322C46A01FAD1B0B00E22B2B /* dev.hashfile */; };
+		3246668F1FBB7B79000D2965 /* StringMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD782681F83010300DB96C0 /* StringMessage.m */; };
 		6BD782751F83011800DB96C0 /* RBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7826C1F83010300DB96C0 /* RBManager.m */; };
 		6BD782761F83011800DB96C0 /* RBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7826E1F83010300DB96C0 /* RBMessage.m */; };
 		6BD782771F83011800DB96C0 /* RBPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD782701F83010300DB96C0 /* RBPublisher.m */; };
@@ -1940,6 +1941,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3246668F1FBB7B79000D2965 /* StringMessage.m in Sources */,
 				6BD7827A1F830F3A00DB96C0 /* PointMessage.m in Sources */,
 				6BD782751F83011800DB96C0 /* RBManager.m in Sources */,
 				6BD782761F83011800DB96C0 /* RBMessage.m in Sources */,

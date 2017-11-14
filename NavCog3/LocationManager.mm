@@ -143,9 +143,10 @@ void functionCalledToLog(void *inUserData, string text)
     // divya1
     if (self) {
         // Custom initialization
-        [[RBManager defaultManager] connect:@"ws://192.168.0.105:9090"];
+        [[RBManager defaultManager] connect:@"ws://192.168.0.108:9090"];
         self.ROSEncoderSubscriber = [[RBManager defaultManager] addSubscriber:@"/encoder" responseTarget:self selector:@selector(EncoderUpdate:) messageClass:[encoderMessage class]];
         self.ROSEncoderSubscriber.throttleRate = 100;
+        self.debugInfoPublisher = [[RBManager defaultManager] addPublisher:@"/Navcog/debug" messageType:@"std_msgs/String"];
     }
 
     _isActive = NO;
@@ -691,36 +692,6 @@ void functionCalledToLog(void *inUserData, string text)
         }
         [beaconManager stopMonitoringForRegion:r];
     }
-}
-
-//Start encoder stuff
-// divya2
-- (void) EncoderUpdate:(encoderMessage*)encoder
-{
-    //long *timestamp = encoder.header.stamp.secs;
-    NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
-    // NSTimeInterval is defined as double
-    NSNumber *timeStampObj = [NSNumber numberWithDouble: timeStamp];
-    double timestamp = [timeStampObj doubleValue];
-    timestamp = timestamp;  // times by 1000 for precision purposes
-    
-    float position = 0;
-    float velocity = [encoder.speed floatValue];
-    
-    velocityGlobal = velocity*100;
-    
-    NSLog(@"TimeStamp %f",timestamp);
-    NSLog(@"Velocity %f",velocity);
-    NSLog(@"global speed: %f", velocityGlobal);
-    if (velocityGlobal > 0)
-    {
-        NSLog(@"updated global speed!");
-    }
-    
-    EncoderInfo enc(timestamp, position, velocity*1000);
-    
-    // this probably have no effect
-    // localizer->putAcceleration(enc);
 }
 
 - (void) startSensors  //start sensors put in encoder stuff in here?
@@ -1560,8 +1531,6 @@ int dcount = 0;
         
         currentLocation = data;
         
-        NSLog( @"%@", currentLocation );
-        
         if (!validHeading && !localizer->tracksOrientation() &&
             [[NSUserDefaults standardUserDefaults] boolForKey:@"use_compass"]) {
             double delayInSeconds = 0.1;
@@ -1608,6 +1577,8 @@ int dcount = 0;
         } else {
             validHeading = YES;
             [[NSNotificationCenter defaultCenter] postNotificationName:LOCATION_CHANGED_NOTIFICATION object:self userInfo:data];
+            NSString * debugOut = [NSString stringWithFormat:@"%@", currentLocation];
+            [self emitDebugInfo:debugOut];
         }
     }
     @catch(NSException *e) {
@@ -1643,6 +1614,41 @@ int dcount = 0;
     }];
 }
 
+//Start encoder stuff
+// divya2
+- (void) EncoderUpdate:(encoderMessage*)encoder
+{
+    //long *timestamp = encoder.header.stamp.secs;
+    NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
+    // NSTimeInterval is defined as double
+    NSNumber *timeStampObj = [NSNumber numberWithDouble: timeStamp];
+    double timestamp = [timeStampObj doubleValue];
+    timestamp = timestamp;  // times by 1000 for precision purposes
+    
+    float position = 0;
+    float velocity = [encoder.speed floatValue];
+    
+    velocityGlobal = velocity*100;
+    
+    NSLog(@"TimeStamp %f",timestamp);
+    NSLog(@"Velocity %f",velocity);
+    NSLog(@"global speed: %f", velocityGlobal);
+    if (velocityGlobal > 0)
+    {
+        NSLog(@"updated global speed!");
+    }
+    
+    EncoderInfo enc(timestamp, position, velocity*1000);
+    
+    // this probably have no effect
+    // localizer->putAcceleration(enc);
+}
 
+- (void) emitDebugInfo:(NSString*)message
+{
+    StringMessage * debugInfo = [[StringMessage alloc] init];
+    debugInfo.data = message;
+    [self.debugInfoPublisher publish:debugInfo];
+}
 
 @end
