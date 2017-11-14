@@ -433,7 +433,7 @@ static NavDataStore* instance_ = nil;
     ROS_loc.y = [NSNumber numberWithFloat:loc.lng];
     ROS_loc.z = [NSNumber numberWithFloat:loc.floor];
     [self.ROSLocationPublisher publish:ROS_loc];
-    NSLog(@"Sent the location to ROS");
+    // NSLog(@"Sent the location to ROS");  // commented out by Chris
 }
 
 - (void) orientationChanged: (NSNotification*) note
