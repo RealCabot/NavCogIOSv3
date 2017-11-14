@@ -434,7 +434,8 @@ void functionCalledToLog(void *inUserData, string text)
                         }else{
                             localizer->disableAcceleration(false);
                         }
-                                                
+                        
+                        // EncoderInfo enc (velocityGlobal, 0, timestamp);
                         // localizer->putAcceleration(enc);  // uncommented by Chris
                     }
                     // Parsing motion values
@@ -703,7 +704,7 @@ void functionCalledToLog(void *inUserData, string text)
     float position = 0;
     float velocity = [encoder.speed floatValue];
     
-    velocityGlobal = velocity*100;  // play around with this speed value, 1310/390
+    velocityGlobal = velocity/0.5;  // play around with this speed value, 1310 was calculated, 5300 was empirical
     
     NSLog(@"TimeStamp %f",timestamp);
     NSLog(@"Velocity %f",velocity);
@@ -765,8 +766,8 @@ void functionCalledToLog(void *inUserData, string text)
             long timestamp = [timeStampObj longValue];
             // EncoderInfo enc(timestamp, 0, velocityGlobal);  //the time stamp is done right!!!
             
-            timestamp = (uptime+acc.timestamp)*1000;
             // added by Chris, important
+            timestamp = (uptime+acc.timestamp)*1000;
             EncoderInfo enc(timestamp, 0, velocityGlobal);
             localizer->putAcceleration(enc);  // was originally there
             
