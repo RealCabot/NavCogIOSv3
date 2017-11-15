@@ -740,15 +740,10 @@ void functionCalledToLog(void *inUserData, string text)
             // NSTimeInterval is defined as double
             NSNumber *timeStampObj = [NSNumber numberWithDouble: timeStamp];
             long timestamp = [timeStampObj longValue];
-            // EncoderInfo enc(timestamp, 0, velocityGlobal);  //the time stamp is done right!!!
             
-            timestamp = (uptime+acc.timestamp)*1000;
             // added by Chris, important
+            timestamp = (uptime+acc.timestamp)*1000;
             EncoderInfo enc(timestamp, 0, velocityGlobal);  //the time stamp is done right!!!
-
-            // end added by Chris
-            //NSLog (@ "HEY: %li", timestamp);
-            
             localizer->putAcceleration(enc);  // was originally there
             
         } catch(const std::exception& ex) {
@@ -1629,17 +1624,13 @@ int dcount = 0;
     float position = 0;
     float velocity = [encoder.speed floatValue];
     
-    velocityGlobal = velocity*100;
+    velocityGlobal = velocity*0.5;
     
     NSLog(@"TimeStamp %f",timestamp);
     NSLog(@"Velocity %f",velocity);
     NSLog(@"global speed: %f", velocityGlobal);
-    if (velocityGlobal > 0)
-    {
-        [self emitDebugInfo:@"updated global speed!"];
-    }
     
-    EncoderInfo enc(timestamp, position, velocity*1000);
+    // EncoderInfo enc(timestamp, position, velocity*1000);
     
     // this probably have no effect
     // localizer->putAcceleration(enc);
