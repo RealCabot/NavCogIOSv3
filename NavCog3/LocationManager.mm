@@ -34,6 +34,7 @@
 #import "HLPLocation.h"
 #import "ConfigManager.h"
 #import "NavUtil.h"
+#import "RosBridge.h"
 #include <iomanip>
 
 float velocityGlobal = 0;
@@ -143,7 +144,7 @@ void functionCalledToLog(void *inUserData, string text)
     // divya1
     if (self) {
         // Custom initialization
-        [[RBManager defaultManager] connect:@"ws://192.168.0.108:9090"];
+        [[RBManager defaultManager] connect:RosBridgeURL];
         self.ROSEncoderSubscriber = [[RBManager defaultManager] addSubscriber:@"/encoder" responseTarget:self selector:@selector(EncoderUpdate:) messageClass:[encoderMessage class]];
         self.ROSEncoderSubscriber.throttleRate = 100;
         self.debugInfoPublisher = [[RBManager defaultManager] addPublisher:@"/Navcog/debug" messageType:@"std_msgs/String"];

@@ -370,6 +370,7 @@
 		322C46A01FAD1B0B00E22B2B /* dev.hashfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dev.hashfile; path = ../../../Desktop/dev.hashfile; sourceTree = "<group>"; };
 		32EB7B1D1FB4E9E400E5CB13 /* encoderMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = encoderMessage.h; sourceTree = "<group>"; };
 		532767560556F4EF6118B463 /* Pods-NavCogFingerPrint.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NavCogFingerPrint.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NavCogFingerPrint/Pods-NavCogFingerPrint.debug.xcconfig"; sourceTree = "<group>"; };
+		6B225EA81FBBE40800640133 /* RosBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RosBridge.h; sourceTree = "<group>"; };
 		6BD7823B1F83010200DB96C0 /* PointMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PointMessage.h; sourceTree = "<group>"; };
 		6BD7823C1F83010200DB96C0 /* PointMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PointMessage.m; sourceTree = "<group>"; };
 		6BD7823D1F83010200DB96C0 /* PoseMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PoseMessage.h; sourceTree = "<group>"; };
@@ -1174,6 +1175,7 @@
 				7E6E42EC1D911236006B6899 /* LocationEvent.h */,
 				7EF45E531E3F58D200208042 /* dev.hashfile */,
 				7EDAFE8B1F3042C400368058 /* NavCog3.pch */,
+				6B225EA81FBBE40800640133 /* RosBridge.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
