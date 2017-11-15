@@ -1636,7 +1636,7 @@ int dcount = 0;
     NSLog(@"global speed: %f", velocityGlobal);
     if (velocityGlobal > 0)
     {
-        NSLog(@"updated global speed!");
+        [self emitDebugInfo:@"updated global speed!"];
     }
     
     EncoderInfo enc(timestamp, position, velocity*1000);
