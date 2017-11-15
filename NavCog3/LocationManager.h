@@ -33,7 +33,7 @@
 
 #import "HeaderMessage.h"
 
-#import "encoderMessage.h"
+#import "motorMessage.h"
 
 //encoder from ROS encoder.msg
 
@@ -90,7 +90,7 @@
 
 
 @property RBSubscriber * ROSEncoderSubscriber; //Rbmanager encoder
--(void)EncoderUpdate:(encoderMessage*)encoder; //will send the encoder info to localizer
+-(void)EncoderUpdate:(motorMessage*)motor; //will send the encoder info to localizer
 
 @end
 

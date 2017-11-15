@@ -36,7 +36,8 @@
 #import "NavUtil.h"
 #include <iomanip>
 
-float velocityGlobal = 0;
+float vRGlobal = 0;
+float vLGlobal = 0;
 
 //#include "EncoderInfo.hpp"
 
@@ -52,7 +53,7 @@ typedef struct {
 } LocalUserData;
 
 
-@implementation encoderMessage
+@implementation motorMessage
 @end
 
 @implementation LocationManager // object's methods
@@ -144,7 +145,7 @@ void functionCalledToLog(void *inUserData, string text)
     if (self) {
         // Custom initialization
         [[RBManager defaultManager] connect:@"ws://192.168.0.108:9090"];
-        self.ROSEncoderSubscriber = [[RBManager defaultManager] addSubscriber:@"/encoder" responseTarget:self selector:@selector(EncoderUpdate:) messageClass:[encoderMessage class]];
+        self.ROSEncoderSubscriber = [[RBManager defaultManager] addSubscriber:@"/motor" responseTarget:self selector:@selector(EncoderUpdate:) messageClass:[motorMessage class]];
         self.ROSEncoderSubscriber.throttleRate = 100;
     }
 
@@ -692,7 +693,7 @@ void functionCalledToLog(void *inUserData, string text)
 
 // Start encoder stuff
 // get velocity
-- (void) EncoderUpdate:(encoderMessage*)encoder
+- (void) EncoderUpdate:(motorMessage*)motor
 {
     //long *timestamp = encoder.header.stamp.secs;
     NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
@@ -701,18 +702,15 @@ void functionCalledToLog(void *inUserData, string text)
     double timestamp = [timeStampObj doubleValue];
     timestamp = timestamp;  // times by 1000 for precision purposes
     
-    float position = 0;
-    float velocity = [encoder.speed floatValue];
+    float vL = [motor.left_speed floatValue];
+    float vR = [motor.right_speed floatValue];
     
-    velocityGlobal = velocity/0.5;  // play around with this speed value, 1310 was calculated, 5300 was empirical
+    vLGlobal = vL;  // might need to tune these values
+    vRGlobal = vR;
     
     NSLog(@"TimeStamp %f",timestamp);
-    NSLog(@"Velocity %f",velocity);
-    NSLog(@"global speed: %f", velocityGlobal);
-    if (velocityGlobal > 0)
-    {
-        NSLog(@"updated global speed!");
-    }
+    NSLog(@"Left Velocity %f", vL);
+    NSLog(@"Right Velocity %f", vR);
     
     //EncoderInfo enc(timestamp, position, velocity*1000);
     // this probably have no effect
@@ -768,7 +766,7 @@ void functionCalledToLog(void *inUserData, string text)
             
             // added by Chris, important
             timestamp = (uptime+acc.timestamp)*1000;
-            EncoderInfo enc(timestamp, 0, velocityGlobal);
+            EncoderInfo enc(timestamp, 0, vLGlobal, vRGlobal);
             localizer->putAcceleration(enc);  // was originally there
             
         } catch(const std::exception& ex) {

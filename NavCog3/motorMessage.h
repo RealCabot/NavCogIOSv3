@@ -11,18 +11,20 @@
 
 #import "HeaderMessage.h"
 
-#ifndef encoderMessage_h
-#define encoderMessage_h
+#ifndef motorMessage_h
+#define motorMessage_h
 
 #endif /* encoderMessage_h */
 
 
-@interface encoderMessage : RBMessage {
-    NSNumber * speed;
+@interface motorMessage : RBMessage {
+    NSNumber * left_speed;
+    NSNumber * right_speed;
     HeaderMessage * header;
 }
 
-@property (nonatomic, strong) NSNumber * speed;
+@property (nonatomic, strong) NSNumber * left_speed;
+@property (nonatomic, strong) NSNumber * right_speed;
 @property (nonatomic, strong) HeaderMessage * header;
 
 @end
