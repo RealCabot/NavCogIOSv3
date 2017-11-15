@@ -22,10 +22,10 @@
 
 
 #import "LocationManager.h"
-#import "core/bleloc.h"
-#import "localizer/BasicLocalizer.hpp"
-#import "core/LocException.hpp"
-#import "utils/LogUtil.hpp"
+#import <bleloc/bleloc.h>
+#import <bleloc/BasicLocalizer.hpp>
+#import <bleloc/LocException.hpp>
+#import <bleloc/LogUtil.hpp>
 #import "Logging.h"
 #import <sys/sysctl.h>
 #import <UIKit/UIKit.h>
