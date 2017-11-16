@@ -52,3 +52,5 @@ Icons in NavCogFingerPrint are from [https://github.com/IBM-Design/icons](https:
 ## README
 This Human Scale Localization Platform library is intended solely for use with an Apple iOS product and intended to be used in conjunction with officially licensed Apple development tools and further customized and distributed under the terms and conditions of your licensed Apple developer program.
 
+## Chris's Changes
+NavCog can now localize within CMU on the alpha model, by taking in the encoder values

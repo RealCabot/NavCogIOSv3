@@ -24,12 +24,57 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import <CoreMotion/CoreMotion.h>
-#import <bleloc/Status.hpp>
-#import <bleloc/BLEBeacon.hpp>
-#import <bleloc/LatLngConverter.hpp>
+#import "core/Status.hpp"
+#import "core/BLEBeacon.hpp"
+#import "core/LatLngConverter.hpp"
 #import "LocationEvent.h"
+#import "RBManager.h"
+#import "RBSubscriber.h"
+
+#import "HeaderMessage.h"
+
+#import "encoderMessage.h"
+
+//encoder from ROS encoder.msg
+
+/*@interface encoderTime : RBMessage {
+    long * sec;
+    long * nsec;
+}
+
+@property (nonatomic) long* sec;
+@property (nonatomic) long* nsec;
+
+@end
+
+@interface encoderHeader : RBMessage {
+    int * seq;
+    encoderTime * time;
+    NSString * frameid;
+    
+}
+
+@property (nonatomic) int * seq;
+@property (nonatomic) encoderTime * time;
+@property (nonatomic) NSString * frameid;
+
+@end*/
+
+/*@interface encoderMessage : RBMessage {
+    NSNumber * speed;
+    HeaderMessage * header;
+}
+
+@property (nonatomic, strong) NSNumber * speed;
+@property (nonatomic, strong) HeaderMessage * header;
+
+@end*/
+
+
+//END encoder from ROS encoder.msg
 
 @interface LocationManager : NSObject < CLLocationManagerDelegate >
+
 
 @property BOOL isReadyToStart;
 @property BOOL isActive;
@@ -37,7 +82,6 @@
 
 - (instancetype) init NS_UNAVAILABLE;
 + (instancetype) sharedManager;
-
 - (void) start;
 // - (void) stop; // no need to stop anymore
 - (void) setModelAtPath:(NSString*) path withWorkingDir:(NSString*) dir;
@@ -45,4 +89,10 @@
 - (loc::LatLngConverter::Ptr) getProjection;
 
 
+@property RBSubscriber * ROSEncoderSubscriber; //Rbmanager encoder
+-(void)EncoderUpdate:(encoderMessage*)encoder; //will send the encoder info to localizer
+
 @end
+
+
+

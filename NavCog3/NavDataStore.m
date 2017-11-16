@@ -307,12 +307,12 @@ static NavDataStore* instance_ = nil;
 {
     self = [super init];
     
-    if (self) {
-        // Custom initialization
-        [[RBManager defaultManager] connect:@"ws://192.168.0.102:9090"];
-        self.ROSLocationPublisher = [[RBManager defaultManager] addPublisher:@"/blind/location" messageType:@"geometry_msgs/Point"];
-        self.ROSLocationPublisher.label = @"Turtle Controller";
-    }
+//    if (self) {
+//        // Custom initialization
+//        [[RBManager defaultManager] connect:@"ws://192.168.0.105:9090"];
+//        self.ROSLocationPublisher = [[RBManager defaultManager] addPublisher:@"/blind/location" messageType:@"geometry_msgs/Point"];
+//        self.ROSLocationPublisher.label = @"Turtle Controller";
+//    }
     
     [self reset];
     
@@ -433,7 +433,7 @@ static NavDataStore* instance_ = nil;
     ROS_loc.y = [NSNumber numberWithFloat:loc.lng];
     ROS_loc.z = [NSNumber numberWithFloat:loc.floor];
     [self.ROSLocationPublisher publish:ROS_loc];
-    NSLog(@"Sent the location to ROS");
+    // NSLog(@"Sent the location to ROS");  // commented out by Chris
 }
 
 - (void) orientationChanged: (NSNotification*) note
