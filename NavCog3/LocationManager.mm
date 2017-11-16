@@ -704,7 +704,7 @@ void functionCalledToLog(void *inUserData, string text)
     float position = 0;
     float velocity = [encoder.speed floatValue];
     
-    velocityGlobal = velocity/0.5;  // play around with this speed value, 1310 was calculated, 5300 was empirical
+    velocityGlobal = velocity*0.5;  // play around with this speed value, 1310 was calculated, 5300 was empirical
     
     NSLog(@"TimeStamp %f",timestamp);
     NSLog(@"Velocity %f",velocity);
