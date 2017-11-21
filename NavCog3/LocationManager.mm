@@ -144,7 +144,7 @@ void functionCalledToLog(void *inUserData, string text)
         self.ROSEncoderSubscriber = [[RBManager defaultManager] addSubscriber:@"/encoder" responseTarget:self selector:@selector(EncoderUpdate:) messageClass:[encoderMessage class]];
         self.ROSEncoderSubscriber.throttleRate = 100;
         self.debugInfoPublisher = [[RBManager defaultManager] addPublisher:@"/Navcog/debug" messageType:@"std_msgs/String"];
-        self.odometryPublisher = [[RBManager defaultManager] addPublisher:@"/Navcog/odometry" messageType:@"SimplifiedOdometry"];
+        self.odometryPublisher = [[RBManager defaultManager] addPublisher:@"/Navcog/odometry" messageType:@"navcog_msg/SimplifiedOdometry"];
     }
 
     _isActive = NO;
