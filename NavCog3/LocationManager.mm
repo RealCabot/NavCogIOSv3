@@ -739,13 +739,12 @@ void functionCalledToLog(void *inUserData, string text)
             long timestamp = [timeStampObj longValue];
             
             // added by Chris, important
-            // timestamp = (uptime+acc.timestamp)*1000;  // actually right
-            timestamp = (uptime+acc.timestamp)*1000;
+            timestamp = (uptime+acc.timestamp)*1000;  // actually right
             
-            if (timestamp % 1000 == 0) {
+            /*if (timestamp % 1000 == 0) {
                 NSLog(@"WOW! The global speed is: %f", velocityGlobal);
                 NSLog(@"WOW! The timestamp is: %li", timestamp);
-            }
+            }*/
 
             EncoderInfo enc(timestamp, 0, velocityGlobal);
             localizer->putAcceleration(enc);  // was originally there
