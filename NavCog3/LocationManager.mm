@@ -766,6 +766,7 @@ void functionCalledToLog(void *inUserData, string text)
             
             // added by Chris, important
             timestamp = (uptime+acc.timestamp)*1000;
+            
             EncoderInfo enc(timestamp, 0, vLGlobal, vRGlobal);
             localizer->putAcceleration(enc);  // was originally there
             
