@@ -37,6 +37,8 @@
 #import "StringMessage.h"
 #import "SimplifiedOdometry.h"
 
+#import "MotorMessage.h"
+
 //encoder from ROS encoder.msg
 
 /*@interface encoderTime : RBMessage {
@@ -91,10 +93,11 @@
 - (loc::LatLngConverter::Ptr) getProjection;
 
 
-@property RBSubscriber * ROSEncoderSubscriber; //Rbmanager encoder
-@property RBPublisher * debugInfoPublisher; // Debug Info publisher
-@property RBPublisher * odometryPublisher; //Odometry publisher
--(void) EncoderUpdate:(encoderMessage*)encoder; //will send the encoder info to localizer
+@property RBSubscriber * ROSMotorSubscriber; //Rbmanager Motor
+@property RBPublisher * debugInfoPublisher;  // Debug Info publisher
+@property RBPublisher * odometryPublisher;   //Odometry publisher
+
+-(void) EncoderUpdate:(MotorMessage*)motor; //will send the encoder info to localizer
 -(void) emitDebugInfo:(NSString*)message;
 @end
 

@@ -10,7 +10,6 @@
 #define encoderMessage_h
 
 #import "RBManager.h"
-#import "RBSubscriber.h"
 #import "HeaderMessage.h"
 
 @interface encoderMessage : RBMessage {

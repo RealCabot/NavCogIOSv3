@@ -37,7 +37,8 @@
 #import "RosBridge.h"
 #include <iomanip>
 
-float velocityGlobal = 0;
+float velocityGlobalL = 0;
+float velocityGlobalR = 0;
 
 //#include "EncoderInfo.hpp"
 
@@ -141,8 +142,9 @@ void functionCalledToLog(void *inUserData, string text)
     if (self) {
         // Custom initialization
         [[RBManager defaultManager] connect:RosBridgeURL];
-        self.ROSEncoderSubscriber = [[RBManager defaultManager] addSubscriber:@"/encoder" responseTarget:self selector:@selector(EncoderUpdate:) messageClass:[encoderMessage class]];
-        self.ROSEncoderSubscriber.throttleRate = 100;
+        self.ROSMotorSubscriber = [[RBManager defaultManager] addSubscriber:@"/encoder" responseTarget:self selector:@selector(MotorUpdate:) messageClass:[MotorMessage class]];
+        self.ROSMotorSubscriber.throttleRate = 100;
+        
         self.debugInfoPublisher = [[RBManager defaultManager] addPublisher:@"/Navcog/debug" messageType:@"std_msgs/String"];
         self.odometryPublisher = [[RBManager defaultManager] addPublisher:@"/Navcog/odometry" messageType:@"navcog_msg/SimplifiedOdometry"];
     }
@@ -435,10 +437,10 @@ void functionCalledToLog(void *inUserData, string text)
                         }
                         
                         // added by Chris
-                        EncoderInfo enc(acc.timestamp(), 0, 0.3); // bad fix
+                        // EncoderInfo enc(acc.timestamp(), 0, 0.3); // bad fix
                         // end
                         
-                        localizer->putAcceleration(enc);  // uncommented by Chris
+                        // localizer->putAcceleration(enc);  // uncommented by Chris
                     }
                     // Parsing motion values
                     else if (logString.compare(0, 6, "Motion") == 0) {
@@ -740,13 +742,12 @@ void functionCalledToLog(void *inUserData, string text)
             
             // added by Chris, important
             timestamp = (uptime+acc.timestamp)*1000;  // actually right
-            
             /*if (timestamp % 1000 == 0) {
                 NSLog(@"WOW! The global speed is: %f", velocityGlobal);
                 NSLog(@"WOW! The timestamp is: %li", timestamp);
             }*/
 
-            EncoderInfo enc(timestamp, 0, velocityGlobal);
+            EncoderInfo enc(timestamp, 0, velocityGlobalL, velocityGlobalR);
             localizer->putAcceleration(enc);  // was originally there
         }
         catch(const std::exception& ex) {
@@ -1624,7 +1625,7 @@ int dcount = 0;
 
 //Start encoder stuff
 // divya2
-- (void) EncoderUpdate:(encoderMessage*)encoder
+- (void) MotorUpdate:(MotorMessage*) motor
 {
     //long *timestamp = encoder.header.stamp.secs;
     NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
@@ -1633,10 +1634,11 @@ int dcount = 0;
     double timestamp = [timeStampObj doubleValue];
     timestamp = timestamp;  // times by 1000 for precision purposes
     
-    float position = 0;
-    float velocity = [encoder.speed floatValue];
+    float velocityL = [motor.left_speed floatValue];
+    float velocityR = [motor.right_speed floatValue];
     
-    velocityGlobal = velocity;  // take away the halved value
+    velocityGlobalL = velocityL;  // take away the halved value
+    velocityGlobalR = velocityR;
     
 //    NSLog(@"TimeStamp %f",timestamp);
 //    NSLog(@"Velocity %f",velocity);
