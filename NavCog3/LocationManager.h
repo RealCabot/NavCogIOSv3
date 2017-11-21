@@ -35,6 +35,7 @@
 #import "HeaderMessage.h"
 #import "encoderMessage.h"
 #import "StringMessage.h"
+#import "SimplifiedOdometry.h"
 
 //encoder from ROS encoder.msg
 
@@ -92,6 +93,7 @@
 
 @property RBSubscriber * ROSEncoderSubscriber; //Rbmanager encoder
 @property RBPublisher * debugInfoPublisher; // Debug Info publisher
+@property RBPublisher * odometryPublisher; //Odometry publisher
 -(void) EncoderUpdate:(encoderMessage*)encoder; //will send the encoder info to localizer
 -(void) emitDebugInfo:(NSString*)message;
 @end

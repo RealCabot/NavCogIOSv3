@@ -52,10 +52,6 @@ typedef struct {
     LocationManager *locationManager;
 } LocalUserData;
 
-
-@implementation encoderMessage
-@end
-
 @implementation LocationManager // object's methods
 {
     shared_ptr<BasicLocalizer> localizer;
@@ -148,6 +144,7 @@ void functionCalledToLog(void *inUserData, string text)
         self.ROSEncoderSubscriber = [[RBManager defaultManager] addSubscriber:@"/encoder" responseTarget:self selector:@selector(EncoderUpdate:) messageClass:[encoderMessage class]];
         self.ROSEncoderSubscriber.throttleRate = 100;
         self.debugInfoPublisher = [[RBManager defaultManager] addPublisher:@"/Navcog/debug" messageType:@"std_msgs/String"];
+        self.odometryPublisher = [[RBManager defaultManager] addPublisher:@"/Navcog/odometry" messageType:@"SimplifiedOdometry"];
     }
 
     _isActive = NO;
@@ -1579,8 +1576,18 @@ int dcount = 0;
         } else {
             validHeading = YES;
             [[NSNotificationCenter defaultCenter] postNotificationName:LOCATION_CHANGED_NOTIFICATION object:self userInfo:data];
-            NSString * debugOut = [NSString stringWithFormat:@"%@", currentLocation];
-            [self emitDebugInfo:debugOut];
+            
+            //NSString * debugOut = [NSString stringWithFormat:@"%@", currentLocation];
+            //[self emitDebugInfo:debugOut];
+            
+            SimplifiedOdometry * odom = [[SimplifiedOdometry alloc] init];
+            // TODO: the header of the message is not set
+            odom.pose.x = currentLocation[@"x"];
+            odom.pose.y = currentLocation[@"y"];
+            odom.pose.z = currentLocation[@"z"];
+            odom.speed = currentLocation[@"speed"];
+            odom.orientation = currentLocation[@"orientation"];
+            [self.odometryPublisher publish:odom];
         }
     }
     @catch(NSException *e) {

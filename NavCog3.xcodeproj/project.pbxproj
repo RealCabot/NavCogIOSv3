@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		016CD94CF764844DA4D77711 /* libPods-NavCogFingerPrint.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDB8ADD0611709873B66234 /* libPods-NavCogFingerPrint.a */; };
 		322C46A11FAD1B0C00E22B2B /* dev.hashfile in Resources */ = {isa = PBXBuildFile; fileRef = 322C46A01FAD1B0B00E22B2B /* dev.hashfile */; };
+		3241BD0F1FC3E08700D17951 /* SimplifiedOdometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3241BD0E1FC3E08700D17951 /* SimplifiedOdometry.m */; };
+		3241BD111FC3E4BB00D17951 /* encoderMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3241BD101FC3E4BB00D17951 /* encoderMessage.m */; };
+		3241BD121FC3E78500D17951 /* VectorMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD782441F83010200DB96C0 /* VectorMessage.m */; };
+		3241BD131FC3E78500D17951 /* HeaderMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD782621F83010300DB96C0 /* HeaderMessage.m */; };
+		3241BD141FC3E7A100D17951 /* StampMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD782661F83010300DB96C0 /* StampMessage.m */; };
 		3246668F1FBB7B79000D2965 /* StringMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD782681F83010300DB96C0 /* StringMessage.m */; };
 		6BD782751F83011800DB96C0 /* RBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7826C1F83010300DB96C0 /* RBManager.m */; };
 		6BD782761F83011800DB96C0 /* RBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7826E1F83010300DB96C0 /* RBMessage.m */; };
@@ -368,6 +373,8 @@
 		28E89CC83F0D37E90FA16F2F /* Pods-NavCogSimple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NavCogSimple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NavCogSimple/Pods-NavCogSimple.debug.xcconfig"; sourceTree = "<group>"; };
 		320F82B31FB6C3190096C325 /* SimplifiedOdometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimplifiedOdometry.h; sourceTree = "<group>"; };
 		322C46A01FAD1B0B00E22B2B /* dev.hashfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dev.hashfile; path = ../../../Desktop/dev.hashfile; sourceTree = "<group>"; };
+		3241BD0E1FC3E08700D17951 /* SimplifiedOdometry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimplifiedOdometry.m; sourceTree = "<group>"; };
+		3241BD101FC3E4BB00D17951 /* encoderMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = encoderMessage.m; sourceTree = "<group>"; };
 		32EB7B1D1FB4E9E400E5CB13 /* encoderMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = encoderMessage.h; sourceTree = "<group>"; };
 		532767560556F4EF6118B463 /* Pods-NavCogFingerPrint.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NavCogFingerPrint.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NavCogFingerPrint/Pods-NavCogFingerPrint.debug.xcconfig"; sourceTree = "<group>"; };
 		6B225EA81FBBE40800640133 /* RosBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RosBridge.h; sourceTree = "<group>"; };
@@ -771,7 +778,10 @@
 		320F82B11FB6C19D0096C325 /* messages */ = {
 			isa = PBXGroup;
 			children = (
+				32EB7B1D1FB4E9E400E5CB13 /* encoderMessage.h */,
 				320F82B31FB6C3190096C325 /* SimplifiedOdometry.h */,
+				3241BD0E1FC3E08700D17951 /* SimplifiedOdometry.m */,
+				3241BD101FC3E4BB00D17951 /* encoderMessage.m */,
 			);
 			name = messages;
 			sourceTree = "<group>";
@@ -1065,7 +1075,6 @@
 				7E1F9F291DEEB1D3003E1B23 /* NavDebugHelper.m */,
 				7E7ED5A31F5E67BC0033814B /* ScreenshotHelper.h */,
 				7E7ED5A41F5E67BC0033814B /* ScreenshotHelper.m */,
-				32EB7B1D1FB4E9E400E5CB13 /* encoderMessage.h */,
 			);
 			name = helper;
 			sourceTree = "<group>";
@@ -1943,6 +1952,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3241BD141FC3E7A100D17951 /* StampMessage.m in Sources */,
+				3241BD121FC3E78500D17951 /* VectorMessage.m in Sources */,
+				3241BD131FC3E78500D17951 /* HeaderMessage.m in Sources */,
 				3246668F1FBB7B79000D2965 /* StringMessage.m in Sources */,
 				6BD7827A1F830F3A00DB96C0 /* PointMessage.m in Sources */,
 				6BD782751F83011800DB96C0 /* RBManager.m in Sources */,
@@ -1967,6 +1979,7 @@
 				7EF7F7AE1DD1949C000A625A /* NavDataSource.m in Sources */,
 				7E433DD41D6E84D300C6C993 /* NavUtil.m in Sources */,
 				7EDEDC271D1E0C6800AC111A /* ViewController.m in Sources */,
+				3241BD0F1FC3E08700D17951 /* SimplifiedOdometry.m in Sources */,
 				7E433DCF1D6E846300C6C993 /* NavDeviceTTS.m in Sources */,
 				7E6E42E91D90FD1B006B6899 /* BlindViewController.m in Sources */,
 				7E1F9F5F1DF14E6F003E1B23 /* DialogManager.swift in Sources */,
@@ -1980,6 +1993,7 @@
 				7E7ED5A51F5E67BC0033814B /* ScreenshotHelper.m in Sources */,
 				7E1F9F451DF01AA5003E1B23 /* DialogViewController.swift in Sources */,
 				7E1F9F3C1DF01AA5003E1B23 /* CustomArrow.swift in Sources */,
+				3241BD111FC3E4BB00D17951 /* encoderMessage.m in Sources */,
 				7EF45E351E3F1E3700208042 /* WelcomViewController.m in Sources */,
 				7E1F9F431DF01AA5003E1B23 /* STTHelper.swift in Sources */,
 				7E1F9F3D1DF01AA5003E1B23 /* CustomTableViewCell.swift in Sources */,

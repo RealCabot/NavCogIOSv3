@@ -6,18 +6,21 @@
 #ifndef SimplifiedOdometry_h
 #define SimplifiedOdometry_h
 
+#import "HeaderMessage.h"
+#import "VectorMessage.h"
+
 @interface SimplifiedOdometry : RBMessage {
     HeaderMessage * header;
     VectorMessage * pose;
     NSNumber * orientation;
     NSNumber * speed;
-    // Rotate?
 }
 
 @property (nonatomic, strong) HeaderMessage * header;
 @property (nonatomic, strong) VectorMessage * pose;
-@property (nonatomic, strong) NSNumber * x;
-@property (nonatomic, strong) NSNumber * y;
-@property (nonatomic, strong) NSNumber * z;
+@property (nonatomic, strong) NSNumber * orientation;
+@property (nonatomic, strong) NSNumber * speed;
+
+@end
 
 #endif /* SimplifiedOdometry_h */

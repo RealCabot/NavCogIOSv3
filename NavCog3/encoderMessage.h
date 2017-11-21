@@ -6,16 +6,12 @@
 //  Copyright © 2017 HULOP. All rights reserved.
 //
 
-#import "RBManager.h"
-#import "RBSubscriber.h"
-
-#import "HeaderMessage.h"
-
 #ifndef encoderMessage_h
 #define encoderMessage_h
 
-#endif /* encoderMessage_h */
-
+#import "RBManager.h"
+#import "RBSubscriber.h"
+#import "HeaderMessage.h"
 
 @interface encoderMessage : RBMessage {
     NSNumber * speed;
@@ -26,3 +22,5 @@
 @property (nonatomic, strong) HeaderMessage * header;
 
 @end
+
+#endif /* encoderMessage_h */
