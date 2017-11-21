@@ -742,16 +742,22 @@ void functionCalledToLog(void *inUserData, string text)
             long timestamp = [timeStampObj longValue];
             
             // added by Chris, important
+            // timestamp = (uptime+acc.timestamp)*1000;  // actually right
             timestamp = (uptime+acc.timestamp)*1000;
-            EncoderInfo enc(timestamp, 0, velocityGlobal);  //the time stamp is done right!!!
-            localizer->putAcceleration(enc);  // was originally there
             
-        } catch(const std::exception& ex) {
+            if (timestamp % 1000 == 0) {
+                NSLog(@"WOW! The global speed is: %f", velocityGlobal);
+                NSLog(@"WOW! The timestamp is: %li", timestamp);
+            }
+
+            EncoderInfo enc(timestamp, 0, velocityGlobal);
+            localizer->putAcceleration(enc);  // was originally there
+        }
+        catch(const std::exception& ex) {
             std::cout << ex.what() << std::endl;
         }
         
     }];
-    
     
     if(altimeter){
         [altimeter startRelativeAltitudeUpdatesToQueue: processQueue withHandler:^(CMAltitudeData *altitudeData, NSError *error) {
@@ -1624,14 +1630,13 @@ int dcount = 0;
     float position = 0;
     float velocity = [encoder.speed floatValue];
     
-    velocityGlobal = velocity*0.5;
+    velocityGlobal = velocity;  // take away the halved value
     
-    NSLog(@"TimeStamp %f",timestamp);
-    NSLog(@"Velocity %f",velocity);
-    NSLog(@"global speed: %f", velocityGlobal);
+//    NSLog(@"TimeStamp %f",timestamp);
+//    NSLog(@"Velocity %f",velocity);
+//    NSLog(@"global speed: %f", velocityGlobal);
     
     // EncoderInfo enc(timestamp, position, velocity*1000);
-    
     // this probably have no effect
     // localizer->putAcceleration(enc);
 }
