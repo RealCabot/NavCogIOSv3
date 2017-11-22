@@ -742,10 +742,11 @@ void functionCalledToLog(void *inUserData, string text)
             
             // added by Chris, important
             timestamp = (uptime+acc.timestamp)*1000;  // actually right
-            /*if (timestamp % 1000 == 0) {
-                NSLog(@"WOW! The global speed is: %f", velocityGlobal);
+            if (timestamp % 1000 == 0) {
+                NSLog(@"WOW! The left speed is: %f", velocityGlobalL);
+                NSLog(@"WOW! The right speed is: %f", velocityGlobalR);
                 NSLog(@"WOW! The timestamp is: %li", timestamp);
-            }*/
+            }
 
             EncoderInfo enc(timestamp, 0, velocityGlobalL, velocityGlobalR);
             localizer->putAcceleration(enc);  // was originally there
@@ -1577,9 +1578,10 @@ int dcount = 0;
             validHeading = YES;
             [[NSNotificationCenter defaultCenter] postNotificationName:LOCATION_CHANGED_NOTIFICATION object:self userInfo:data];
             
-            //NSString * debugOut = [NSString stringWithFormat:@"%@", currentLocation];
-            //[self emitDebugInfo:debugOut];
+            NSString * debugOut = [NSString stringWithFormat:@"%@", currentLocation];
+            [self emitDebugInfo:debugOut];
             
+            /*
             SimplifiedOdometry * odom = [[SimplifiedOdometry alloc] init];
             // TODO: the header of the message is not set
             odom.pose.x = currentLocation[@"x"];
@@ -1588,6 +1590,7 @@ int dcount = 0;
             odom.speed = currentLocation[@"speed"];
             odom.orientation = currentLocation[@"orientation"];
             [self.odometryPublisher publish:odom];
+             */
         }
     }
     @catch(NSException *e) {
