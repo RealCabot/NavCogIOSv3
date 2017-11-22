@@ -748,7 +748,9 @@ void functionCalledToLog(void *inUserData, string text)
                 NSLog(@"WOW! The timestamp is: %li", timestamp);
             }
 
-            EncoderInfo enc(timestamp, 0, velocityGlobalL, velocityGlobalR);
+            float avg = (velocityGlobalL + velocityGlobalR)/2;
+            
+            EncoderInfo enc(timestamp, 0, avg);
             localizer->putAcceleration(enc);  // was originally there
         }
         catch(const std::exception& ex) {
