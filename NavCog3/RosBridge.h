@@ -9,6 +9,8 @@
 #ifndef RosBridge_h
 #define RosBridge_h
 
-NSString * const RosBridgeURL = @"ws://192.168.0.108:9090";
+// NSString * const RosBridgeURL = @"ws://192.168.0.104:9090";  // Divya
+NSString * const RosBridgeURL = @"ws://192.168.0.105:9090";  // Andrew
+// NSString * const RosBridgeURL = @"ws://192.168.0.108:9090";  // Chris
 
 #endif /* RosBridge_h */

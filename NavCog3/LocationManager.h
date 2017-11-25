@@ -39,8 +39,6 @@
 
 #import "MotorMessage.h"
 
-//encoder from ROS encoder.msg
-
 /*@interface encoderTime : RBMessage {
     long * sec;
     long * nsec;

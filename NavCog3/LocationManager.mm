@@ -732,8 +732,6 @@ void functionCalledToLog(void *inUserData, string text)
                 localizer->disableAcceleration(false);
             }
             
-            
-            
             //long *timestamp = encoder.header.stamp.secs;
             NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
             // NSTimeInterval is defined as double
@@ -748,7 +746,7 @@ void functionCalledToLog(void *inUserData, string text)
                 NSLog(@"WOW! The timestamp is: %li", timestamp);
             }
 
-            float avg = (velocityGlobalL + velocityGlobalR)/2;
+            float avg = 0.6*(velocityGlobalL + velocityGlobalR)/2;  // playing around with the gain
             
             EncoderInfo enc(timestamp, 0, avg);
             localizer->putAcceleration(enc);  // was originally there
@@ -1458,7 +1456,7 @@ int dcount = 0;
         }
         currentOrientationAccuracy = orientationAccuracy;
         
-        double acc = [[NSUserDefaults standardUserDefaults] boolForKey:@"accuracy_for_demo"]?0.5:5.0;
+        double acc = [[NSUserDefaults standardUserDefaults] boolForKey:@"accuracy_for_demo"]?0.5:5.0;  // what is this?!
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"use_blelocpp_acc"]) {
             auto std = loc::Location::standardDeviation(states);
             double sigma = [[NSUserDefaults standardUserDefaults] doubleForKey:@"blelocpp_accuracy_sigma"];
@@ -1580,20 +1578,16 @@ int dcount = 0;
             validHeading = YES;
             [[NSNotificationCenter defaultCenter] postNotificationName:LOCATION_CHANGED_NOTIFICATION object:self userInfo:data];
             
-            NSString * debugOut = [NSString stringWithFormat:@"%@", currentLocation];
-            [self emitDebugInfo:debugOut];
-            
-            /*
-            SimplifiedOdometry * odom = [[SimplifiedOdometry alloc] init];
-            // TODO: the header of the message is not set
-            odom.pose.x = currentLocation[@"x"];
-            odom.pose.y = currentLocation[@"y"];
-            odom.pose.z = currentLocation[@"z"];
-            odom.speed = currentLocation[@"speed"];
-            odom.orientation = currentLocation[@"orientation"];
-            [self.odometryPublisher publish:odom];
-             */
+            // NSString * debugOut = [NSString stringWithFormat:@"%@", currentLocation];
+            // [self emitDebugInfo:debugOut];
         }
+        SimplifiedOdometry * odom = [[SimplifiedOdometry alloc] init];
+        // TODO: the header of the message is not set
+        odom.pose.x = data[@"x"];
+        odom.pose.y = data[@"y"];
+        odom.pose.z = data[@"z"];
+        odom.speed = data[@"speed"];
+        [self.odometryPublisher publish:odom];
     }
     @catch(NSException *e) {
         NSLog(@"%@", [e debugDescription]);
@@ -1628,8 +1622,7 @@ int dcount = 0;
     }];
 }
 
-//Start encoder stuff
-// divya2
+//Start encoder2 stuff
 - (void) MotorUpdate:(MotorMessage*) motor
 {
     //long *timestamp = encoder.header.stamp.secs;
@@ -1644,10 +1637,6 @@ int dcount = 0;
     
     velocityGlobalL = velocityL;  // take away the halved value
     velocityGlobalR = velocityR;
-    
-//    NSLog(@"TimeStamp %f",timestamp);
-//    NSLog(@"Velocity %f",velocity);
-//    NSLog(@"global speed: %f", velocityGlobal);
     
     // EncoderInfo enc(timestamp, position, velocity*1000);
     // this probably have no effect
