@@ -36,9 +36,14 @@
 #import "NavUtil.h"
 #import "RosBridge.h"
 #include <iomanip>
+#include <math.h>
 
 float velocityGlobalL = 0;
 float velocityGlobalR = 0;
+
+float xAngleGlobal = 0;
+float yAngleGlobal = 0;
+float zAngleGlobal = 0;
 
 //#include "EncoderInfo.hpp"
 
@@ -53,7 +58,7 @@ typedef struct {
     LocationManager *locationManager;
 } LocalUserData;
 
-@implementation LocationManager // object's methods
+@implementation LocationManager
 {
     shared_ptr<BasicLocalizer> localizer;
     CLLocationManager *beaconManager;
@@ -135,15 +140,17 @@ void functionCalledToLog(void *inUserData, string text)
 {
     self = [super init];
     
-    //put in initialization for RB manager
-    //need a subsriber to encoder
-    
-    // divya1
+    // ROS Sensor Inputs
     if (self) {
         // Custom initialization
         [[RBManager defaultManager] connect:RosBridgeURL];
         self.ROSMotorSubscriber = [[RBManager defaultManager] addSubscriber:@"/encoder" responseTarget:self selector:@selector(MotorUpdate:) messageClass:[MotorMessage class]];
         self.ROSMotorSubscriber.throttleRate = 100;
+        
+        self.ROSIMUSubscriber = [[RBManager defaultManager] addSubscriber:@"/imu" responseTarget:self selector:@selector(IMUUpdate:) messageClass:[IMUMessage class]];
+        self.ROSIMUSubscriber.throttleRate = 100;
+        
+        NSLog (@"hi, this is mac");
         
         self.debugInfoPublisher = [[RBManager defaultManager] addPublisher:@"/Navcog/debug" messageType:@"std_msgs/String"];
         self.odometryPublisher = [[RBManager defaultManager] addPublisher:@"/Navcog/odometry" messageType:@"navcog_msg/SimplifiedOdometry"];
@@ -449,7 +456,7 @@ void functionCalledToLog(void *inUserData, string text)
                             std::cout << "LogReplay:" << att.timestamp() << ",Motion," << att << std::endl;
                         }
                         timestamp = att.timestamp();
-                        localizer->putAttitude(att);
+                        localizer->putAttitude(att); // for log only?
                     }
                     else if (logString.compare(0, 7, "Heading") == 0){
                         Heading head = LogUtil::toHeading(logString);
@@ -693,8 +700,8 @@ void functionCalledToLog(void *inUserData, string text)
         [beaconManager stopMonitoringForRegion:r];
     }
 }
-
-- (void) startSensors  //start sensors put in encoder stuff in here?
+// important!!!
+- (void) startSensors  // import sensor info
 {
     [beaconManager startUpdatingHeading];
     
@@ -709,8 +716,15 @@ void functionCalledToLog(void *inUserData, string text)
             return;
         }
         try {
+            /*Attitude attitude((uptime+motion.timestamp)*1000,
+                              motion.attitude.pitch, motion.attitude.roll, motion.attitude.yaw + offsetYaw);  // X-pitch, Y-roll, Z-yaw*/
             Attitude attitude((uptime+motion.timestamp)*1000,
-                              motion.attitude.pitch, motion.attitude.roll, motion.attitude.yaw + offsetYaw);
+                              zAngleGlobal*M_PI/180, yAngleGlobal*M_PI/180, [self constrain:-(M_PI-xAngleGlobal*M_PI/180)] + offsetYaw);  // X-pitch, Y-roll, Z-yaw
+            // x and z angles are switched between imu and iphone imu
+            
+//            NSLog (@"iphone yaw: %f", motion.attitude.yaw*180/M_PI);
+            NSString * debugOut = [NSString stringWithFormat:@"iphone yaw: %f, imu: %f", motion.attitude.yaw, [self constrain:-(M_PI-xAngleGlobal*M_PI/180)]];
+            [self emitDebugInfo:debugOut];
             
             localizer->putAttitude(attitude);
         } catch(const std::exception& ex) {
@@ -1587,6 +1601,11 @@ int dcount = 0;
         odom.pose.y = data[@"y"];
         odom.pose.z = data[@"z"];
         odom.speed = data[@"speed"];
+        if (isnan([data[@"orientation"] floatValue])){ // In the beginning where there's no arrows
+            odom.orientation = @(xAngleGlobal); // Directly from IMU
+        } else {
+            odom.orientation = data[@"orientation"]; //From Particle filter
+        }
         [self.odometryPublisher publish:odom];
     }
     @catch(NSException *e) {
@@ -1622,6 +1641,29 @@ int dcount = 0;
     }];
 }
 
+// start imu stuff
+- (void) IMUUpdate:(IMUMessage*) imu  // new IMU
+{
+    //long *timestamp = encoder.header.stamp.secs;
+    NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
+    // NSTimeInterval is defined as double
+    NSNumber *timeStampObj = [NSNumber numberWithDouble: timeStamp];
+    double timestamp = [timeStampObj doubleValue];
+    
+    float xAngle = [imu.vector.x floatValue];
+    float yAngle = [imu.vector.y floatValue];
+    float zAngle = [imu.vector.z floatValue];
+    
+    /*float xAngle = [imu.angleX floatValue];
+    float yAngle = [imu.angleY floatValue];
+    float zAngle = [imu.angleZ floatValue];*/
+    
+    xAngleGlobal = xAngle;
+    yAngleGlobal = yAngle;
+    zAngleGlobal = zAngle;
+
+}
+
 //Start encoder2 stuff
 - (void) MotorUpdate:(MotorMessage*) motor
 {
@@ -1648,6 +1690,17 @@ int dcount = 0;
     StringMessage * debugInfo = [[StringMessage alloc] init];
     debugInfo.data = message;
     [self.debugInfoPublisher publish:debugInfo];
+}
+
+-(float) constrain:(float)angle
+{
+    while (angle > M_PI) {
+        angle -= M_PI *2;
+    }
+    while (angle < - M_PI) {
+        angle += M_PI *2;
+    }
+    return angle;
 }
 
 @end

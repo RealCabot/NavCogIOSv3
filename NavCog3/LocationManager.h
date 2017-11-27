@@ -38,6 +38,7 @@
 #import "SimplifiedOdometry.h"
 
 #import "MotorMessage.h"
+#import "IMUMessage.h"
 
 /*@interface encoderTime : RBMessage {
     long * sec;
@@ -92,11 +93,17 @@
 
 
 @property RBSubscriber * ROSMotorSubscriber; //Rbmanager Motor
+@property RBSubscriber * ROSIMUSubscriber;   // new imu
+// .vector.x for imu data
+
 @property RBPublisher * debugInfoPublisher;  // Debug Info publisher
 @property RBPublisher * odometryPublisher;   //Odometry publisher
 
 -(void) EncoderUpdate:(MotorMessage*)motor; //will send the encoder info to localizer
+-(void) IMUUpdate:(IMUMessage*)imu; // new imu
+
 -(void) emitDebugInfo:(NSString*)message;
+-(float) constrain:(float)angle;
 @end
 
 

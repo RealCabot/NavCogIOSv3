@@ -15,6 +15,8 @@
 		3241BD131FC3E78500D17951 /* HeaderMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD782621F83010300DB96C0 /* HeaderMessage.m */; };
 		3241BD141FC3E7A100D17951 /* StampMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD782661F83010300DB96C0 /* StampMessage.m */; };
 		3246668F1FBB7B79000D2965 /* StringMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD782681F83010300DB96C0 /* StringMessage.m */; };
+		327548891FCA9831008A88EB /* IMUMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 327548881FCA9831008A88EB /* IMUMessage.m */; };
+		3275488A1FCA9831008A88EB /* IMUMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 327548881FCA9831008A88EB /* IMUMessage.m */; };
 		32F6389D1FC4DA8600C54A4C /* MotorMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F6389C1FC4DA8600C54A4C /* MotorMessage.m */; };
 		6BD782751F83011800DB96C0 /* RBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7826C1F83010300DB96C0 /* RBManager.m */; };
 		6BD782761F83011800DB96C0 /* RBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7826E1F83010300DB96C0 /* RBMessage.m */; };
@@ -376,6 +378,8 @@
 		322C46A01FAD1B0B00E22B2B /* dev.hashfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dev.hashfile; path = ../../../Desktop/dev.hashfile; sourceTree = "<group>"; };
 		3241BD0E1FC3E08700D17951 /* SimplifiedOdometry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimplifiedOdometry.m; sourceTree = "<group>"; };
 		3241BD101FC3E4BB00D17951 /* encoderMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = encoderMessage.m; sourceTree = "<group>"; };
+		327548871FCA9774008A88EB /* IMUMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMUMessage.h; sourceTree = "<group>"; };
+		327548881FCA9831008A88EB /* IMUMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMUMessage.m; sourceTree = "<group>"; };
 		32EB7B1D1FB4E9E400E5CB13 /* encoderMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = encoderMessage.h; sourceTree = "<group>"; };
 		32F6389B1FC4DA1400C54A4C /* MotorMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MotorMessage.h; sourceTree = "<group>"; };
 		32F6389C1FC4DA8600C54A4C /* MotorMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MotorMessage.m; sourceTree = "<group>"; };
@@ -782,11 +786,13 @@
 			isa = PBXGroup;
 			children = (
 				32EB7B1D1FB4E9E400E5CB13 /* encoderMessage.h */,
-				320F82B31FB6C3190096C325 /* SimplifiedOdometry.h */,
-				32F6389B1FC4DA1400C54A4C /* MotorMessage.h */,
-				3241BD0E1FC3E08700D17951 /* SimplifiedOdometry.m */,
-				32F6389C1FC4DA8600C54A4C /* MotorMessage.m */,
 				3241BD101FC3E4BB00D17951 /* encoderMessage.m */,
+				327548871FCA9774008A88EB /* IMUMessage.h */,
+				327548881FCA9831008A88EB /* IMUMessage.m */,
+				32F6389B1FC4DA1400C54A4C /* MotorMessage.h */,
+				32F6389C1FC4DA8600C54A4C /* MotorMessage.m */,
+				320F82B31FB6C3190096C325 /* SimplifiedOdometry.h */,
+				3241BD0E1FC3E08700D17951 /* SimplifiedOdometry.m */,
 			);
 			name = messages;
 			sourceTree = "<group>";
@@ -1974,6 +1980,7 @@
 				7EF45E321E3F1E3700208042 /* AgreementViewController.m in Sources */,
 				7EA019011E2F54E7005E65ED /* InitViewController.mm in Sources */,
 				7E683DF61E42DE8100D04037 /* StarRatingView.m in Sources */,
+				327548891FCA9831008A88EB /* IMUMessage.m in Sources */,
 				7EF45E341E3F1E3700208042 /* ServerSelectionViewController.m in Sources */,
 				7E1F9F3F1DF01AA5003E1B23 /* AnimLayer.swift in Sources */,
 				7EDEDC381D1E0E5E00AC111A /* LocationManager.mm in Sources */,
@@ -2101,6 +2108,7 @@
 				A9037BF91ECD4C9D003FD719 /* HLPSettingTableView.m in Sources */,
 				A9037BFA1ECD4C9E003FD719 /* HLPSettingViewCell.m in Sources */,
 				A9037BE41ECD44BC003FD719 /* ViewController.m in Sources */,
+				3275488A1FCA9831008A88EB /* IMUMessage.m in Sources */,
 				A9037BE31ECD44BC003FD719 /* SettingViewController.m in Sources */,
 				A9037BAF1ECD448E003FD719 /* AppDelegate.mm in Sources */,
 				A9037BC81ECD44A5003FD719 /* main.mm in Sources */,
