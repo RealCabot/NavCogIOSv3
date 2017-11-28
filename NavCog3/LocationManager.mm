@@ -718,16 +718,17 @@ void functionCalledToLog(void *inUserData, string text)
         try {
             /*Attitude attitude((uptime+motion.timestamp)*1000,
                               motion.attitude.pitch, motion.attitude.roll, motion.attitude.yaw + offsetYaw);  // X-pitch, Y-roll, Z-yaw*/
-            Attitude attitude((uptime+motion.timestamp)*1000,
-                              zAngleGlobal*M_PI/180, yAngleGlobal*M_PI/180, [self constrain:-(M_PI-xAngleGlobal*M_PI/180)] + offsetYaw);  // X-pitch, Y-roll, Z-yaw
+            Attitude attitude((uptime+motion.timestamp)*1000, zAngleGlobal*M_PI/180,
+                                                              yAngleGlobal*M_PI/180,
+                                                              [self constrain:-(M_PI-xAngleGlobal*M_PI/180)] + offsetYaw);  // X-pitch, Y-roll, Z-yaw
             // x and z angles are switched between imu and iphone imu
             
-//            NSLog (@"iphone yaw: %f", motion.attitude.yaw*180/M_PI);
-            NSString * debugOut = [NSString stringWithFormat:@"iphone yaw: %f, imu: %f", motion.attitude.yaw, [self constrain:-(M_PI-xAngleGlobal*M_PI/180)]];
-            [self emitDebugInfo:debugOut];
+//            NSString * debugOut = [NSString stringWithFormat:@"iphone yaw: %f, imu: %f", motion.attitude.yaw, [self constrain:-(M_PI-xAngleGlobal*M_PI/180)]];
+//            [self emitDebugInfo:debugOut];
             
             localizer->putAttitude(attitude);
-        } catch(const std::exception& ex) {
+        }
+        catch(const std::exception& ex) {
             std::cout << ex.what() << std::endl;
         }
     }];
@@ -742,7 +743,8 @@ void functionCalledToLog(void *inUserData, string text)
         try{
             if(disableAcceleration){
                 localizer->disableAcceleration(true);
-            }else{
+            }
+            else{
                 localizer->disableAcceleration(false);
             }
             
@@ -760,7 +762,7 @@ void functionCalledToLog(void *inUserData, string text)
                 NSLog(@"WOW! The timestamp is: %li", timestamp);
             }
 
-            float avg = 0.6*(velocityGlobalL + velocityGlobalR)/2;  // playing around with the gain
+            float avg = 0.57*(velocityGlobalL + velocityGlobalR)/2;  // playing around with the gain (0.6 is pretty good)
             
             EncoderInfo enc(timestamp, 0, avg);
             localizer->putAcceleration(enc);  // was originally there
@@ -1604,7 +1606,7 @@ int dcount = 0;
         if (isnan([data[@"orientation"] floatValue])){ // In the beginning where there's no arrows
             odom.orientation = @(xAngleGlobal); // Directly from IMU
         } else {
-            odom.orientation = data[@"orientation"]; //From Particle filter
+            odom.orientation = @([self constrain_angle:-(180-[data[@"orientation"] doubleValue])]); //From Particle filter
         }
         [self.odometryPublisher publish:odom];
     }
@@ -1702,5 +1704,17 @@ int dcount = 0;
     }
     return angle;
 }
+
+-(float) constrain_angle:(float)angle
+{
+    while (angle > 180) {
+        angle -= 360;
+    }
+    while (angle < - 180) {
+        angle += 360;
+    }
+    return angle;
+}
+
 
 @end

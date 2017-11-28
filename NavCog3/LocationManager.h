@@ -104,6 +104,7 @@
 
 -(void) emitDebugInfo:(NSString*)message;
 -(float) constrain:(float)angle;
+-(float) constrain_angle:(float)angle;
 @end
 
 
