@@ -40,12 +40,12 @@
 
 float velocityGlobalL = 0;
 float velocityGlobalR = 0;
+long velocityTimeStamp = 0;
 
 float xAngleGlobal = 0;
 float yAngleGlobal = 0;
 float zAngleGlobal = 0;
-
-//#include "EncoderInfo.hpp"
+long imuTimeStamp = 0;
 
 #define CALIBRATION_BEACON_UUID @"00000000-30A4-1001-B000-001C4D1E8637"
 #define CALIBRATION_BEACON_MAJOR 9999
@@ -149,9 +149,7 @@ void functionCalledToLog(void *inUserData, string text)
         
         self.ROSIMUSubscriber = [[RBManager defaultManager] addSubscriber:@"/imu" responseTarget:self selector:@selector(IMUUpdate:) messageClass:[IMUMessage class]];
         self.ROSIMUSubscriber.throttleRate = 100;
-        
-        NSLog (@"hi, this is mac");
-        
+
         self.debugInfoPublisher = [[RBManager defaultManager] addPublisher:@"/Navcog/debug" messageType:@"std_msgs/String"];
         self.odometryPublisher = [[RBManager defaultManager] addPublisher:@"/Navcog/odometry" messageType:@"navcog_msg/SimplifiedOdometry"];
     }
@@ -718,13 +716,14 @@ void functionCalledToLog(void *inUserData, string text)
         try {
             /*Attitude attitude((uptime+motion.timestamp)*1000,
                               motion.attitude.pitch, motion.attitude.roll, motion.attitude.yaw + offsetYaw);  // X-pitch, Y-roll, Z-yaw*/
-            Attitude attitude((uptime+motion.timestamp)*1000, zAngleGlobal*M_PI/180,
-                                                              yAngleGlobal*M_PI/180,
-                                                              [self constrain:-(M_PI-xAngleGlobal*M_PI/180)] + offsetYaw);  // X-pitch, Y-roll, Z-yaw
+            
+            Attitude attitude(imuTimeStamp, zAngleGlobal*M_PI/180,  // used to be (uptime+motion.timestamp)*1000
+                                            yAngleGlobal*M_PI/180,
+                                            [self constrain:-(M_PI-xAngleGlobal*M_PI/180)] + offsetYaw);  // X-pitch, Y-roll, Z-yaw
             // x and z angles are switched between imu and iphone imu
             
-//            NSString * debugOut = [NSString stringWithFormat:@"iphone yaw: %f, imu: %f", motion.attitude.yaw, [self constrain:-(M_PI-xAngleGlobal*M_PI/180)]];
-//            [self emitDebugInfo:debugOut];
+            /* NSString * debugOut = [NSString stringWithFormat:@"iphone yaw: %f, imu: %f", motion.attitude.yaw, [self constrain:-(M_PI-xAngleGlobal*M_PI/180)]];
+            [self emitDebugInfo:debugOut]; */
             
             localizer->putAttitude(attitude);
         }
@@ -748,23 +747,18 @@ void functionCalledToLog(void *inUserData, string text)
                 localizer->disableAcceleration(false);
             }
             
-            //long *timestamp = encoder.header.stamp.secs;
-            NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
-            // NSTimeInterval is defined as double
-            NSNumber *timeStampObj = [NSNumber numberWithDouble: timeStamp];
-            long timestamp = [timeStampObj longValue];
-            
             // added by Chris, important
-            timestamp = (uptime+acc.timestamp)*1000;  // actually right
-            if (timestamp % 1000 == 0) {
-                NSLog(@"WOW! The left speed is: %f", velocityGlobalL);
-                NSLog(@"WOW! The right speed is: %f", velocityGlobalR);
-                NSLog(@"WOW! The timestamp is: %li", timestamp);
-            }
-
-            float avg = 0.57*(velocityGlobalL + velocityGlobalR)/2;  // playing around with the gain (0.6 is pretty good)
+            long timestamp = (uptime+acc.timestamp)*1000;  // actually right
             
-            EncoderInfo enc(timestamp, 0, avg);
+            /* NSLog(@"NavCog time stamp: %li", timestamp);
+            NSLog(@"ROS velocity time stamp: %li", velocityTimeStamp);
+            NSLog(@"ROS imu time stamp: %li", imuTimeStamp); */
+
+            float avg = (velocityGlobalL + velocityGlobalR)/2;  // playing around with the gain (0.6 is pretty good)
+            
+            // EncoderInfo enc(timestamp, 0, avg);
+            EncoderInfo enc(velocityTimeStamp, 0, avg);
+
             localizer->putAcceleration(enc);  // was originally there
         }
         catch(const std::exception& ex) {
@@ -1606,7 +1600,7 @@ int dcount = 0;
         if (isnan([data[@"orientation"] floatValue])){ // In the beginning where there's no arrows
             odom.orientation = @(xAngleGlobal); // Directly from IMU
         } else {
-            odom.orientation = @([self constrain_angle:-(180-[data[@"orientation"] doubleValue])]); //From Particle filter
+            odom.orientation = @([self constrain_angle:-[data[@"orientation"] doubleValue]+90]); //From Particle filter
         }
         [self.odometryPublisher publish:odom];
     }
@@ -1655,35 +1649,30 @@ int dcount = 0;
     float xAngle = [imu.vector.x floatValue];
     float yAngle = [imu.vector.y floatValue];
     float zAngle = [imu.vector.z floatValue];
-    
-    /*float xAngle = [imu.angleX floatValue];
-    float yAngle = [imu.angleY floatValue];
-    float zAngle = [imu.angleZ floatValue];*/
+    imuTimeStamp = [imu.header.stamp.secs longValue]*1000 + [imu.header.stamp.nsecs longValue]/1000000 + 1000;  // adding 1 sec just in case
     
     xAngleGlobal = xAngle;
     yAngleGlobal = yAngle;
     zAngleGlobal = zAngle;
-
 }
 
-//Start encoder2 stuff
+//Start encoder stuff
 - (void) MotorUpdate:(MotorMessage*) motor
 {
-    //long *timestamp = encoder.header.stamp.secs;
     NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
     // NSTimeInterval is defined as double
     NSNumber *timeStampObj = [NSNumber numberWithDouble: timeStamp];
     double timestamp = [timeStampObj doubleValue];
-    timestamp = timestamp;  // times by 1000 for precision purposes
     
     float velocityL = [motor.left_speed floatValue];
     float velocityR = [motor.right_speed floatValue];
+    
+    velocityTimeStamp = [motor.header.stamp.secs longValue]*1000 + [motor.header.stamp.nsecs longValue]/1000000 + 1000; // adding 1 sec just in case;
     
     velocityGlobalL = velocityL;  // take away the halved value
     velocityGlobalR = velocityR;
     
     // EncoderInfo enc(timestamp, position, velocity*1000);
-    // this probably have no effect
     // localizer->putAcceleration(enc);
 }
 
