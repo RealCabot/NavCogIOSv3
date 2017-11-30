@@ -1649,7 +1649,7 @@ int dcount = 0;
     float xAngle = [imu.vector.x floatValue];
     float yAngle = [imu.vector.y floatValue];
     float zAngle = [imu.vector.z floatValue];
-    imuTimeStamp = [imu.header.stamp.secs longValue]*1000 + [imu.header.stamp.nsecs longValue]/1000000 + 1000;  // adding 1 sec just in case
+    imuTimeStamp = [imu.header.stamp.secs longValue]*1000 + [imu.header.stamp.nsecs longValue]/1000000;  // adding 1 sec just in case
     
     xAngleGlobal = xAngle;
     yAngleGlobal = yAngle;
@@ -1667,11 +1667,10 @@ int dcount = 0;
     float velocityL = [motor.left_speed floatValue];
     float velocityR = [motor.right_speed floatValue];
     
-    velocityTimeStamp = [motor.header.stamp.secs longValue]*1000 + [motor.header.stamp.nsecs longValue]/1000000 + 1000; // adding 1 sec just in case;
+    velocityTimeStamp = [motor.header.stamp.secs longValue]*1000 + [motor.header.stamp.nsecs longValue]/1000000; // adding 1 sec just in case;
     
     velocityGlobalL = velocityL;  // take away the halved value
     velocityGlobalR = velocityR;
-    
     // EncoderInfo enc(timestamp, position, velocity*1000);
     // localizer->putAcceleration(enc);
 }
