@@ -47,10 +47,14 @@ MotorMessage
   left_speed
   right_speed
   
-SimplifiedOdometry -> /Navcog/odometry /n
+SimplifiedOdometry -> /Navcog/odometry
+
   header: HeaderMessage: frame_id, seq
+  
   pose: vector message: x, y, z
+  
   orientation: number
+  
   speed: number
   
 ## ROS Subscribers
