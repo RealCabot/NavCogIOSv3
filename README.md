@@ -34,9 +34,9 @@ See [wiki](https://github.com/hulop/NavCogIOSv3/wiki) for set up servers and dat
 - C-Dawg: 192.168.0.108:9090
 
 ## ROS Messages
-# Subscribed
+### Subscribed
 - `/encoder`: `MotorMessage`
 - `/imu`: `IMUMessage` 
-# Published
+### Published
 - `/Navcog/odometry`: `SimplifiedOdometry`  
 
