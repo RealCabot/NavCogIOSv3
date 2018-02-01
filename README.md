@@ -27,37 +27,14 @@ The workspace also includes the following tools.
 See [wiki](https://github.com/hulop/NavCogIOSv3/wiki) for set up servers and data.
 
 ## RosBridge URLs
-D-Money: 192.168.0.104:9090
-Jennifei: 192.168.0.107:9090
-Cloud Computing: 192.168.0.109:9090
-Scrum Daddy: 192.168.0.105:9090 
-C-Dawg: 192.168.0.108:9090
+- D-Money: 192.168.0.104:9090
+- Jennifei: 192.168.0.107:9090
+- Cloud Computing: 192.168.0.109:9090
+- Scrum Daddy: 192.168.0.105:9090 
+- C-Dawg: 192.168.0.108:9090
 
 ## ROS Messages
-encoderMessage
-  header
-  speed
-  
-IMUMessage
-  header
-  vector
-  
-MotorMessage
-  header
-  left_speed
-  right_speed
-  
-SimplifiedOdometry -> /Navcog/odometry
-  header: HeaderMessage: frame_id, seq
-  pose: vector message: x, y, z
-  orientation: number
-  speed: number
-  
-## ROS Subscribers
-ROSMotorSubscriber
-ROSIMUSubscirber
-
-## ROS Publisher
-debugInfoPublisher
-odometryPublisher
+- `/encoder`: `MotorMessage`
+- `/imu`: `IMUMessage` 
+- `/Navcog/odometry`: `SimplifiedOdometry`  
 
