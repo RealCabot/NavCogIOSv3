@@ -28,7 +28,7 @@ See [wiki](https://github.com/hulop/NavCogIOSv3/wiki) for set up servers and dat
 
 ## RosBridge URLs
 - D-Money: 192.168.0.104:9090
-- Jennifei: 192.168.0.107:9090
+- Poncho Queen: 192.168.0.107:9090
 - Cloud Computing: 192.168.0.109:9090
 - Scrum Daddy: 192.168.0.105:9090 
 - C-Dawg: 192.168.0.108:9090
