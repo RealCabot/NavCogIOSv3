@@ -1,16 +1,4 @@
-# NavCog3
-
-## NavCog3 Tools
-The workspace also includes the following tools.
-
-- **NavCogFingerPrint**: For fingerprinting
-- **NavCogTool**: For simulate blind user navigation commands
-
-## Pre-Requisites
-
-- [Mantle](https://github.com/Mantle/Mantle) (MIT License)
-- [Watson Developer Cloud Swift SDK](https://github.com/watson-developer-cloud/swift-sdk) (Apache 2.0)
-- [blelocpp (BLE localization library)](https://github.com/hulop/blelocpp) (MIT License)
+# NavCog3 for Cabot
 
 ## Build
 
@@ -22,21 +10,10 @@ The workspace also includes the following tools.
 6. Open NavCog3.xcworkspace
 7. Build NavCog3 project with Xcode.
 
-## Setup
-
-See [wiki](https://github.com/hulop/NavCogIOSv3/wiki) for set up servers and data.
-
-## RosBridge URLs
-- D-Money: 192.168.0.104:9090
-- Poncho Queen: 192.168.0.107:9090
-- Cloud Computing: 192.168.0.109:9090
-- Scrum Daddy: 192.168.0.105:9090 
-- C-Dawg: 192.168.0.108:9090
-
 ## ROS Messages
 ### Subscribed
-- `/encoder`: `MotorMessage`
-- `/imu`: `IMUMessage` 
+- `/encoder`: `MotorMessage` which replicates `arduino_msg::Motor`
+- `/imu`: `IMUMessage` which replicates `geometry_msg::Vector3Stamped`
 ### Published
-- `/Navcog/odometry`: `SimplifiedOdometry`  
-
+- `/Navcog/odometry`: `navcog_msg::SimplifiedOdometry`
+- `/Navcog/debug`: `std_msgs/String`, some random debug info
