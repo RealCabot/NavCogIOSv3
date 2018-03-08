@@ -1430,7 +1430,7 @@
 					};
 					7EDEDC1B1D1E0C6800AC111A = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = D9NP3C453S;
+						DevelopmentTeam = VH2B56YH37;
 						LastSwiftMigration = 0820;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -2333,7 +2333,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = D9NP3C453S;
+				DEVELOPMENT_TEAM = VH2B56YH37;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2379,7 +2379,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = D9NP3C453S;
+				DEVELOPMENT_TEAM = VH2B56YH37;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
